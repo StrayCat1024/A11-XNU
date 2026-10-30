@@ -9,16 +9,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Fix availability.pl
-        run: |
-          SDKROOT=$(xcrun --sdk macosx --show-sdk-path)
-          sudo mkdir -p $SDKROOT/usr/local/libexec
-          sudo cp availability.pl $SDKROOT/usr/local/libexec/
-          sudo chmod +x $SDKROOT/usr/local/libexec/availability.pl
-
       - name: Build XNU
         run: |
-          make SDKROOT=macosx ARCH_CONFIGS=ARM64 KERNEL_CONFIGS=DEVELOPMENT MACHINE_CONFIGS=VMAPPLE RC_DARWIN_KERNEL_VERSION=23.6.0 RC_ProjectSourceVersion=10063.141.1
+          make SDKROOT=macosx ARCH_CONFIGS=ARM64 KERNEL_CONFIGS=DEVELOPMENT MACHINE_CONFIGS=BCM2837 RC_DARWIN_KERNEL_VERSION=23.6.0 RC_ProjectSourceVersion=10063.141.1
 
       - name: Upload Kernel
         uses: actions/upload-artifact@v4
