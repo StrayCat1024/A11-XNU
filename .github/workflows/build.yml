@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Fix availability and IOTypes.h
+      - name: Fix availability and bypass DriverKit
         run: |
           # 1. 修复 availability 问题
           SDKROOT=$(xcrun --sdk macosx --show-sdk-path)
@@ -22,9 +22,11 @@ jobs:
           echo 'exit 0' >> $SDKROOT/usr/local/libexec/availability
           chmod +x $SDKROOT/usr/local/libexec/availability
 
-          # 2. 造一个假的 IOTypes.h 骗过系统
+          # 2. 彻底掏空 DriverKit 的 Makefile，让它不编译！
+          echo "" > iokit/DriverKit/Makefile
+          # 也把刚才骗过去的假文件一起建好（以防万一）
           mkdir -p iokit/DriverKit
-          touch iokit/DriverKit/IOTypes.h
+          touch iokit/DriverKit/IOTypes.h iokit/DriverKit/IOReturn.h
 
       - name: Build XNU
         run: |
