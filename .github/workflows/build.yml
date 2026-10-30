@@ -6,8 +6,22 @@ on:
 jobs:
   build:
     runs-on: macos-15
+    timeout-minutes: 180
     steps:
       - uses: actions/checkout@v4
+
+      - name: Fix availability
+        run: |
+          # 强行把咱们本地编译好的 availability.pl 复制过去
+          SDKROOT=$(xcrun --sdk macosx --show-sdk-path)
+          mkdir -p $SDKROOT/usr/local/libexec
+          cp availability.pl $SDKROOT/usr/local/libexec/
+          chmod +x $SDKROOT/usr/local/libexec/availability.pl
+          
+          # 创建假的 availability 执行文件，防止它报错
+          echo '#!/bin/bash' > $SDKROOT/usr/local/libexec/availability
+          echo 'exit 0' >> $SDKROOT/usr/local/libexec/availability
+          chmod +x $SDKROOT/usr/local/libexec/availability
 
       - name: Build XNU
         run: |
