@@ -1,0 +1,4 @@
+#!/bin/bash
+if [[ "$*" == *"physicalcpu"* ]] || [[ "$*" == *"logicalcpu"* ]]; then echo 8
+elif [[ "$*" == *"memsize"* ]]; then echo 8589934592
+else echo 0; fi
