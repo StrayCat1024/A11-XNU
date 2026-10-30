@@ -5,33 +5,18 @@ on:
 
 jobs:
   build:
-    runs-on: macos-15
+    runs-on: macos-14
     timeout-minutes: 180
     steps:
       - uses: actions/checkout@v4
 
-      - name: Fix Environment Missing Files
+      - name: Install availability.pl into SDK
         run: |
-          # 1. 修复 availability 问题
+          set -e
           SDKROOT=$(xcrun --sdk macosx --show-sdk-path)
-          mkdir -p $SDKROOT/usr/local/libexec
-          cp availability.pl $SDKROOT/usr/local/libexec/
-          chmod +x $SDKROOT/usr/local/libexec/availability.pl
-          
-          echo '#!/bin/bash' > $SDKROOT/usr/local/libexec/availability
-          echo 'exit 0' >> $SDKROOT/usr/local/libexec/availability
-          chmod +x $SDKROOT/usr/local/libexec/availability
-
-          # 2. 创建缺失的 platform 目录（解决 clang error）
-          mkdir -p $SDKROOT/System/Library/Frameworks/Kernel.framework/Versions/A/PrivateHeaders/platform
-          
-          # 3. 为 DriverKit 造假头文件（这是补文件，不是删文件）
-          mkdir -p iokit/DriverKit
-          touch iokit/DriverKit/IOTypes.h iokit/DriverKit/IOReturn.h
-
-      - name: Build XNU
-        run: |
-          make SDKROOT=macosx ARCH_CONFIGS=ARM64 KERNEL_CONFIGS=DEVELOPMENT MACHINE_CONFIGS=BCM2837 RC_DARWIN_KERNEL_VERSION=23.6.0 RC_ProjectSourceVersion=10063.141.1
+          mkdir -p "$SDKROOT/usr/local/libexec"
+          cp availability.pl "$SDKROOT/usr/local/libexec/availability.pl"
+          chmod +x "$SDKROOT/usr/local/libexec/availability.pl"
 
       - name: Build XNU
         run: |
