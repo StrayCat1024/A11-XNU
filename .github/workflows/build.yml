@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Fix availability and bypass DriverKit
+      - name: Bypass DriverKit and fix availability
         run: |
           # 1. 修复 availability 问题
           SDKROOT=$(xcrun --sdk macosx --show-sdk-path)
@@ -22,11 +22,11 @@ jobs:
           echo 'exit 0' >> $SDKROOT/usr/local/libexec/availability
           chmod +x $SDKROOT/usr/local/libexec/availability
 
-          # 2. 彻底掏空 DriverKit 的 Makefile，让它不编译！
-          echo "" > iokit/DriverKit/Makefile
-          # 也把刚才骗过去的假文件一起建好（以防万一）
-          mkdir -p iokit/DriverKit
-          touch iokit/DriverKit/IOTypes.h iokit/DriverKit/IOReturn.h
+          # 2. 从父级 Makefile 中删掉对 DriverKit 的调用
+          sed -i '' '/DriverKit/d' iokit/Makefile
+
+          # 3. 物理删除整个 DriverKit 目录，让它彻底消失
+          rm -rf iokit/DriverKit
 
       - name: Build XNU
         run: |
