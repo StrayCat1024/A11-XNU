@@ -1,0 +1,20 @@
+name: Build A11 XNU
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build XNU
+        run: |
+          make ARCH_CONFIGS=ARM64 KERNEL_CONFIGS=DEVELOPMENT
+
+      - name: Upload Kernel
+        uses: actions/upload-artifact@v4
+        with:
+          name: kernel.development
+          path: BUILD/obj/kernel.development
