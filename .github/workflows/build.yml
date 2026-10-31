@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install official Availability tools and Fix DriverKit headers
+      - name: Install official Availability tools and Map DriverKit Headers
         run: |
           set -e
           
@@ -23,9 +23,17 @@ jobs:
           chmod +x "$SDKROOT/usr/local/libexec/availability.pl"
           chmod +x "$SDKROOT/usr/local/libexec/availability"
 
-          # 2. 修复 DriverKit 的 IOTypes.h 依赖问题（官方开源树中在 IOKit 下）
-          cp iokit/IOKit/IOTypes.h iokit/DriverKit/IOTypes.h
-          cp iokit/IOKit/IOReturn.h iokit/DriverKit/IOReturn.h
+          # 2. 自动映射 DriverKit 缺失的头文件（从整个源码树中找并复制）
+          echo "Mapping missing DriverKit headers..."
+          HEADERS="IOTypes.h IOReturn.h IORPC.h IOKitKeys.h IOKernelReportStructs.h IOReportTypes.h queue_implementation.h macro_help.h bounded_ptr.h bounded_array.h bounded_array_ref.h bounded_ptr_fwd.h OSBoundedArray.h OSBoundedArrayRef.h OSBoundedPtr.h OSBoundedPtrFwd.h safe_allocation.h"
+          for h in $HEADERS; do
+            if [ ! -f "iokit/DriverKit/$h" ]; then
+              FOUND=$(find . -name "$h" | head -n 1)
+              if [ -n "$FOUND" ]; then
+                cp "$FOUND" "iokit/DriverKit/$h"
+              fi
+            fi
+          done
 
       - name: Build XNU
         run: |
