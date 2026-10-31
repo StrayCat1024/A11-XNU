@@ -1,19 +1,3 @@
-
-#ifndef kTCReturnError
-#define kTCReturnError 0
-#endif
-#ifndef kTCReturnSuccess
-#define kTCReturnSuccess 0
-#endif
-#ifndef kTCCapabilityNone
-#define kTCCapabilityNone 0
-#endif
-
-typedef struct { uint32_t error; } fake_TCReturn_t;
-#ifndef TCReturn_t
-#define TCReturn_t fake_TCReturn_t
-#endif
-
 /*
  * Copyright (c) 2021 Apple Computer, Inc. All rights reserved.
  *
