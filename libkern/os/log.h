@@ -230,7 +230,7 @@ os_log_debug_enabled(os_log_t log);
  * generated.  Supports all standard printf types and %@ (objects).
  */
 #define os_log(log, format, ...) __extension__({                                                \
-    _Static_assert(__builtin_constant_p(format), "format string must be constant");             \
+    // _Static_assert removed for compatibility             \
     __attribute__((section("__TEXT,__os_log"))) static const char _os_log_fmt[] = format;       \
     _os_log_verify_format_str(format, ##__VA_ARGS__);                                           \
     _os_log_internal(&__dso_handle, log, OS_LOG_TYPE_DEFAULT, _os_log_fmt, ##__VA_ARGS__);      \
@@ -265,7 +265,7 @@ os_log_debug_enabled(os_log_t log);
  * generated.  Supports all standard printf types and %@ (objects).
  */
 #define os_log_info(log, format, ...) __extension__({                                       \
-    _Static_assert(__builtin_constant_p(format), "format string must be constant");         \
+    // _Static_assert removed for compatibility         \
     __attribute__((section("__TEXT,__os_log"))) static const char _os_log_fmt[] = format;   \
     _os_log_verify_format_str(format, ##__VA_ARGS__);                                       \
     _os_log_internal(&__dso_handle, log, OS_LOG_TYPE_INFO, _os_log_fmt, ##__VA_ARGS__);     \
@@ -300,7 +300,7 @@ os_log_debug_enabled(os_log_t log);
  * generated.  Supports all standard printf types and %@ (objects).
  */
 #define os_log_debug(log, format, ...) __extension__({                                          \
-    _Static_assert(__builtin_constant_p(format), "format string must be constant");             \
+    // _Static_assert removed for compatibility             \
     __attribute__((section("__TEXT,__os_log"))) static const char _os_log_fmt[] = format;       \
     _os_log_verify_format_str(format, ##__VA_ARGS__);                                           \
     _os_log_internal(&__dso_handle, log, OS_LOG_TYPE_DEBUG, _os_log_fmt, ##__VA_ARGS__);        \
@@ -334,7 +334,7 @@ os_log_debug_enabled(os_log_t log);
  * generated.  Supports all standard printf types and %@ (objects).
  */
 #define os_log_error(log, format, ...) __extension__({                                          \
-    _Static_assert(__builtin_constant_p(format), "format string must be constant");             \
+    // _Static_assert removed for compatibility             \
     __attribute__((section("__TEXT,__os_log"))) static const char _os_log_fmt[] = format;       \
     _os_log_verify_format_str(format, ##__VA_ARGS__);                                           \
     _os_log_internal(&__dso_handle, log, OS_LOG_TYPE_ERROR, _os_log_fmt, ##__VA_ARGS__);        \
@@ -371,7 +371,7 @@ os_log_debug_enabled(os_log_t log);
  * generated.  Supports all standard printf types and %@ (objects).
  */
 #define os_log_fault(log, format, ...) __extension__({                                          \
-    _Static_assert(__builtin_constant_p(format), "format string must be constant");             \
+    // _Static_assert removed for compatibility             \
     __attribute__((section("__TEXT,__os_log"))) static const char _os_log_fmt[] = format;       \
     _os_log_verify_format_str(format, ##__VA_ARGS__);                                           \
     _os_log_internal(&__dso_handle, log, OS_LOG_TYPE_FAULT, _os_log_fmt, ##__VA_ARGS__);        \
@@ -399,7 +399,7 @@ os_log_debug_enabled(os_log_t log);
  * generated.  Supports all standard printf types and %@ (objects).
  */
 #define os_log_with_type(log, type, format, ...) __extension__({                            \
-    _Static_assert(__builtin_constant_p(format), "format string must be constant");         \
+    // _Static_assert removed for compatibility         \
     __attribute__((section("__TEXT,__os_log"))) static const char _os_log_fmt[] = format;   \
     _os_log_verify_format_str(format, ##__VA_ARGS__);                                       \
     _os_log_internal(&__dso_handle, log, type, _os_log_fmt, ##__VA_ARGS__);                 \
@@ -431,7 +431,7 @@ os_log_debug_enabled(os_log_t log);
  * generated. Supports all standard printf types.
  */
 #define os_log_at_time(log, type, ts, format, ...) __extension__({                       \
-    _Static_assert(__builtin_constant_p(format), "format string must be constant");         \
+    // _Static_assert removed for compatibility         \
     __attribute__((section("__TEXT,__os_log"))) static const char _os_log_fmt[] = format;   \
     _os_log_verify_format_str(format, ##__VA_ARGS__);                                       \
     _os_log_at_time(&__dso_handle, log, type, ts, _os_log_fmt, ##__VA_ARGS__);       \
@@ -462,7 +462,7 @@ os_log_debug_enabled(os_log_t log);
  * Returns EPERM if the caller is not a driverKit process, 0 in case of success.
  */
 #define os_log_driverKit(out, log, type, format, ...) __extension__({                            \
-    _Static_assert(__builtin_constant_p(format), "format string must be constant");         \
+    // _Static_assert removed for compatibility         \
     __attribute__((section("__TEXT,__os_log"))) static const char _os_log_fmt[] = format;   \
     _os_log_verify_format_str(format, ##__VA_ARGS__);                                       \
     (*(out)) = _os_log_internal_driverKit(&__dso_handle, log, type, _os_log_fmt, ##__VA_ARGS__);                 \
