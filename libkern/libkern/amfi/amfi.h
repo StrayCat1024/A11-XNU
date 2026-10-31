@@ -1,6 +1,4 @@
 #include <stdint.h>
-typedef void * TrustCache_t;
-typedef void * TrustCacheRuntime_t;
 #define TCReturn_t int
 /*
  * Copyright (c) 2020 Apple Inc. All rights reserved.
