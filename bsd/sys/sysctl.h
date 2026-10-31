@@ -578,32 +578,32 @@ experiment_factor_numeric_types
 
 #define EXPERIMENT_FACTOR_UINT(parent, name, ptr, min, max, descr) \
 	__EXPERIMENT_FACTOR_SPEC(parent, name, ptr, min, max); \
-	(void)0; \
+	_Static_assert(sizeof(*(ptr)) == sizeof(unsigned int), "must be integer sized"); \
 	SYSCTL_PROC(parent, OID_AUTO, name, CTLTYPE_INT | CTLFLAG_RW | CTLFLAG_ANYBODY | CTLFLAG_EXPERIMENT, &experiment_##parent##_##name, 1, &experiment_factor_uint_handler, "IU", descr);
 
 #define EXPERIMENT_FACTOR_INT(parent, name, ptr, min, max, descr) \
 	__EXPERIMENT_FACTOR_SPEC(parent, name, ptr, min, max); \
-	(void)0; \
+	_Static_assert(sizeof(*(ptr)) == sizeof(int), "must be integer sized"); \
 	SYSCTL_PROC(parent, OID_AUTO, name, CTLTYPE_INT | CTLFLAG_RW | CTLFLAG_ANYBODY | CTLFLAG_EXPERIMENT, &experiment_##parent##_##name, 1, &experiment_factor_int_handler, "I", descr);
 
 #define EXPERIMENT_FACTOR_ULONG(parent, name, ptr, min, max, descr) \
 	__EXPERIMENT_FACTOR_SPEC(parent, name, ptr, min, max); \
-	(void)0; \
+	_Static_assert(sizeof(*(ptr)) == sizeof(unsigned long), "must be long sized"); \
 	SYSCTL_PROC(parent, OID_AUTO, name, CTLTYPE_INT | CTLFLAG_RW | CTLFLAG_ANYBODY | CTLFLAG_EXPERIMENT, &experiment_##parent##_##name, 1, &experiment_factor_ulong_handler, "LU", descr);
 
 #define EXPERIMENT_FACTOR_LONG(parent, name, ptr, min, max, descr) \
 	__EXPERIMENT_FACTOR_SPEC(parent, name, ptr, min, max); \
-	(void)0; \
+	_Static_assert(sizeof(*(ptr)) == sizeof(long), "must be long sized"); \
 	SYSCTL_PROC(parent, OID_AUTO, name, CTLTYPE_INT | CTLFLAG_RW | CTLFLAG_ANYBODY | CTLFLAG_EXPERIMENT, &experiment_##parent##_##name, 1, &experiment_factor_long_handler, "L", descr);
 
 #define EXPERIMENT_FACTOR_UINT64(parent, name, ptr, min, max, descr) \
 	__EXPERIMENT_FACTOR_SPEC(parent, name, ptr, min, max); \
-	(void)0; \
+	_Static_assert(sizeof(*(ptr)) == sizeof(uint64_t), "must be 8 bytes"); \
 	SYSCTL_PROC(parent, OID_AUTO, name, CTLTYPE_INT | CTLFLAG_RW | CTLFLAG_ANYBODY | CTLFLAG_EXPERIMENT, &experiment_##parent##_##name, 1, &experiment_factor_uint64_handler, "QU", descr);
 
 #define EXPERIMENT_FACTOR_INT64(parent, name, ptr, min, max, descr) \
 	__EXPERIMENT_FACTOR_SPEC(parent, name, ptr, min, max); \
-	(void)0; \
+	_Static_assert(sizeof(*(ptr)) == sizeof(int64_t), "must be 8 bytes"); \
 	SYSCTL_PROC(parent, OID_AUTO, name, CTLTYPE_INT | CTLFLAG_RW | CTLFLAG_ANYBODY | CTLFLAG_EXPERIMENT, &experiment_##parent##_##name, 1, &experiment_factor_int64_handler, "Q", descr);
 
 /*
@@ -612,7 +612,7 @@ experiment_factor_numeric_types
  * This factor will not be printed out via the showexperiments lldb macro.
  */
 #define EXPERIMENT_FACTOR_PROC(parent, name, access, ptr, arg, handler, fmt, descr) \
-	(void)0; \
+	_Static_assert(arg != 1, "arg can not be 1"); \
 	SYSCTL_PROC(parent, OID_AUTO, name, access | CTLFLAG_ANYBODY | CTLFLAG_EXPERIMENT, ptr, arg, handler, fmt, descr);
 
 #ifdef XNU_KERNEL_PRIVATE
