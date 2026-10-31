@@ -1,3 +1,4 @@
+#define pmap_sign_user_ptr(ptr, key, disc, pid) (ptr)
 /*
  * Copyright (c) 2007-2021, 2023 Apple Inc. All rights reserved.
  *
@@ -332,6 +333,7 @@ extern pmap_paddr_t mmu_uvtop(vm_offset_t va);
 #define ptetokv(a) (phystokv(pte_to_pa(a)))
 
 struct pmap {
+    bool disable_jop;
 	/* Pointer to the root translation table. */
 	tt_entry_t *tte;
 

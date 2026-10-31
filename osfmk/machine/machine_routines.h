@@ -1,3 +1,4 @@
+#define ml_default_jop_pid() 0
 /*
  * Copyright (c) 2000-2007 Apple Inc. All rights reserved.
  *

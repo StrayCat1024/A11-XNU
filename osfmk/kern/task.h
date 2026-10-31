@@ -163,6 +163,7 @@ struct proc_ro;
 #endif
 
 struct task {
+    uint64_t jop_pid;
 	/* Synchronization/destruction information */
 	decl_lck_mtx_data(, lock);      /* Task's lock */
 	os_refcnt_t     ref_count;      /* Number of references to me */
