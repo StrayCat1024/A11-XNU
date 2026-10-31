@@ -30,8 +30,8 @@ jobs:
 
       - name: Disable -Werror
         run: |
-          # 删除把警告当错误的设置
-          sed -i 's/WERROR := -Werror/WERROR :=/g' makedefs/MakeInc.def
+          # 在 macOS 上使用 perl 替代 sed 进行就地修改，避免 BSD sed 报错
+          perl -pi -e 's/WERROR := -Werror/WERROR :=/g' makedefs/MakeInc.def
 
       - name: Build XNU
         run: |
