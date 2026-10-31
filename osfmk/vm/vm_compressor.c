@@ -1,3 +1,5 @@
+typedef struct { void *freezer_ctx_task; } freezer_context_t;
+static freezer_context_t freezer_context_global;
 /*
  * Copyright (c) 2000-2020 Apple Inc. All rights reserved.
  *

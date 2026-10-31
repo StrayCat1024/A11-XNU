@@ -1,3 +1,9 @@
+#ifndef VM_MIN_SWAP_FILE_SWAP_ENABLED_NUM
+#define VM_MIN_SWAP_FILE_SWAP_ENABLED_NUM 1
+#endif
+#ifndef VM_MAX_SWAP_FILE_SWAP_ENABLED_NUM
+#define VM_MAX_SWAP_FILE_SWAP_ENABLED_NUM 16
+#endif
 /*
  * Copyright (c) 2000-2013 Apple Inc. All rights reserved.
  *
