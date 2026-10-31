@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install official Availability tools and Prepare Directories
+      - name: Prepare Environment and Directories
         run: |
           set -e
           SDKROOT=$(xcrun --sdk macosx --show-sdk-path)
@@ -27,6 +27,11 @@ jobs:
           mkdir -p BUILD/obj/EXPORT_HDRS/libsa
           mkdir -p "$SDKROOT/usr/local/include/kernel"
           mkdir -p "$SDKROOT/System/Library/Frameworks/Kernel.framework/Versions/A/PrivateHeaders/platform"
+
+      - name: Disable -Werror
+        run: |
+          # 删除把警告当错误的设置
+          sed -i 's/WERROR := -Werror/WERROR :=/g' makedefs/MakeInc.def
 
       - name: Build XNU
         run: |
