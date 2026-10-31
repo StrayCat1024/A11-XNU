@@ -10,6 +10,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install official Availability tools into SDK
+        run: |
+          set -e
+          SDKROOT=$(xcrun --sdk macosx --show-sdk-path)
+          mkdir -p "$SDKROOT/usr/local/libexec"
+          cp SETUP/availability/availability.pl "$SDKROOT/usr/local/libexec/"
+          cp SETUP/availability/availability "$SDKROOT/usr/local/libexec/"
+          chmod +x "$SDKROOT/usr/local/libexec/availability.pl"
+          chmod +x "$SDKROOT/usr/local/libexec/availability"
+
       - name: Build XNU
         run: |
           make SDKROOT=macosx ARCH_CONFIGS=ARM64 KERNEL_CONFIGS=DEVELOPMENT MACHINE_CONFIGS=BCM2837 RC_DARWIN_KERNEL_VERSION=23.6.0 RC_ProjectSourceVersion=10063.141.1
