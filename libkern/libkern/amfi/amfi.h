@@ -1,3 +1,6 @@
+#include <stdint.h>
+typedef void * TrustCache_t;
+typedef void * TrustCacheRuntime_t;
 #define TCReturn_t int
 typedef uint32_t constructInvalid_t;
 /*
