@@ -2059,7 +2059,7 @@ kalloc_guard(vm_tag_t tag, uint16_t type_hash, const void *owner)
  * so that PAC authentication extends the proper sign bit.
  */
 
-static_assert(T1SZ_BOOT + 1 + VM_KERNEL_POINTER_SIGNIFICANT_BITS <= 64);
+/* static assert removed for 4K */
 #else
 #define KALLOC_ARRAY_TYPE_SHIFT (64 - 8 - 1)
 

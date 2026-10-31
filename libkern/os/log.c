@@ -35,7 +35,7 @@
 #include <firehose/firehose_types_private.h>
 #include <firehose/tracepoint_private.h>
 #include <firehose/chunk_private.h>
-#include <os/firehose_buffer_private.h>
+#include <libkern/firehose/chunk_private.h>
 #include <os/firehose.h>
 #include <os/log_private.h>
 
