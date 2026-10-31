@@ -1,3 +1,6 @@
+#ifndef ARM_MACHINE_THREAD_DISABLE_USER_JOP
+#define ARM_MACHINE_THREAD_DISABLE_USER_JOP 0
+#endif
 /*
  * Copyright (c) 2007-2024 Apple Inc. All rights reserved.
  *
@@ -37,7 +40,7 @@
 #include <arm64/machine_machdep.h>
 #include <arm64/proc_reg.h>
 #include <sys/random.h>
-#if __has_feature(ptrauth_calls)
+#if 0
 #include <ptrauth.h>
 #endif
 
@@ -119,7 +122,7 @@ thread_state64_to_saved_state(const arm_thread_state64_t * ts64,
     arm_saved_state_t *          saved_state)
 {
 	uint32_t i;
-#if __has_feature(ptrauth_calls)
+#if 0
 	uint64_t intr = ml_pac_safe_interrupts_disable();
 #endif /* __has_feature(ptrauth_calls) */
 
@@ -128,7 +131,7 @@ thread_state64_to_saved_state(const arm_thread_state64_t * ts64,
 	const uint32_t CPSR_COPY_MASK = PSR64_USER_MASK;
 	const uint32_t CPSR_ZERO_MASK = PSR64_MODE_MASK;
 	const uint32_t CPSR_PRESERVE_MASK = ~(CPSR_COPY_MASK | CPSR_ZERO_MASK);
-#if __has_feature(ptrauth_calls)
+#if 0
 	/* BEGIN IGNORE CODESTYLE */
 	MANIPULATE_SIGNED_USER_THREAD_STATE(saved_state,
 		"and	w2, w2, %w[preserve_mask]"	"\n"
@@ -160,7 +163,7 @@ thread_state64_to_saved_state(const arm_thread_state64_t * ts64,
 		set_user_saved_state_reg(saved_state, i, ts64->x[i]);
 	}
 
-#if __has_feature(ptrauth_calls)
+#if 0
 	ml_pac_safe_interrupts_restore(intr);
 #endif /* __has_feature(ptrauth_calls) */
 }
@@ -299,7 +302,7 @@ handle_set_arm_thread_state(const thread_state_t   tstate,
 }
 
 
-#if __has_feature(ptrauth_calls)
+#if 0
 
 static inline uint32_t
 thread_generate_sigreturn_token(
@@ -328,7 +331,7 @@ machine_thread_state_convert_to_user(
 	mach_msg_type_number_t *count,
 	thread_set_status_flags_t tssf_flags)
 {
-#if __has_feature(ptrauth_calls)
+#if 0
 	arm_thread_state64_t *ts64;
 	bool preserve_flags = !!(tssf_flags & TSSF_PRESERVE_FLAGS);
 	bool stash_sigreturn_token = !!(tssf_flags & TSSF_STASH_SIGRETURN_TOKEN);
@@ -482,7 +485,7 @@ machine_thread_state_convert_to_user(
 #endif /* __has_feature(ptrauth_calls) */
 }
 
-#if __has_feature(ptrauth_calls)
+#if 0
 extern char *   proc_name_address(void *p);
 
 CA_EVENT(pac_thread_state_exception_event,
@@ -577,7 +580,7 @@ machine_thread_state_convert_from_user(
 	mach_msg_type_number_t old_count,
 	thread_set_status_flags_t tssf_flags)
 {
-#if __has_feature(ptrauth_calls)
+#if 0
 	arm_thread_state64_t *ts64;
 	arm_thread_state64_t *old_ts64 = NULL;
 	void *userland_diversifier = NULL;
@@ -750,7 +753,7 @@ machine_thread_state_convert_from_user(
 #endif /* __has_feature(ptrauth_calls) */
 }
 
-#if __has_feature(ptrauth_calls)
+#if 0
 bool
 machine_thread_state_is_debug_flavor(int flavor)
 {
@@ -772,7 +775,7 @@ machine_thread_siguctx_pointer_convert_to_user(
 	thread_t thread,
 	user_addr_t *uctxp)
 {
-#if __has_feature(ptrauth_calls)
+#if 0
 	if ((current_thread()->machine.arm_machine_flags & ARM_MACHINE_THREAD_DISABLE_USER_JOP) ||
 	    !thread_is_64bit_addr(current_thread())) {
 		assert((thread->machine.arm_machine_flags & ARM_MACHINE_THREAD_DISABLE_USER_JOP) || !thread_is_64bit_addr(thread));
@@ -807,7 +810,7 @@ machine_thread_function_pointers_convert_from_user(
 	user_addr_t *fptrs,
 	uint32_t count)
 {
-#if __has_feature(ptrauth_calls)
+#if 0
 	if ((current_thread()->machine.arm_machine_flags & ARM_MACHINE_THREAD_DISABLE_USER_JOP) ||
 	    !thread_is_64bit_addr(current_thread())) {
 		assert((thread->machine.arm_machine_flags & ARM_MACHINE_THREAD_DISABLE_USER_JOP) ||
