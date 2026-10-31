@@ -9,8 +9,15 @@
 #define kTCReturnError 1
 #define kTCReturnSuccess 0
 #define kTCCapabilityNone 0
-#define kTCTypeStatic 1
-#define kTCTypeDynamic 2
+
+#define kTCTypeLTRS 1
+#define kTCTypeStatic 2
+#define kTCTypeEngineering 3
+#define kTCTypeCryptex1BootOS 4
+#define kTCTypeCryptex1BootApp 5
+#define kTCTypeDTRS 6
+#define kTCTypeLegacy 7
+#define kTCTypeTotal 8
 
 typedef uint32_t TCType_t;
 typedef uint32_t TCQueryType_t;
@@ -30,8 +37,11 @@ typedef struct {
 typedef struct {
     bool allowEngineeringTC;
 } TrustCacheRuntime_t;
-#endif
 
-#define kTCTypeCryptex1BootOS 3
-#define kTCTypeCryptex1BootApp 4
-#define kTCTypeEngineering 5
+typedef struct {
+    const char *entitlementValue;
+} TCTypeConfig_t;
+
+static const TCTypeConfig_t TCTypeConfig[10] = {0};
+
+#endif
