@@ -1,5 +1,4 @@
 #include <stdint.h>
-#define TCReturn_t int
 /*
  * Copyright (c) 2020 Apple Inc. All rights reserved.
  *
