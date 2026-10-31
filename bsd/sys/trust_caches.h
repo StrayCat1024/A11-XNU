@@ -1,3 +1,9 @@
+#include <stdint.h>
+#ifndef kUUIDSize
+#define kUUIDSize 16
+#endif
+typedef uint32_t TCCapabilities_t;
+typedef uint32_t TrustCacheQueryToken_t;
 /*
  * Copyright (c) 2022 Apple Computer, Inc. All rights reserved.
  *

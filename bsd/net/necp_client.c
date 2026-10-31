@@ -1,3 +1,5 @@
+#define kCSWebBrowserHostEntitlement "com.apple.private.web-browser-host"
+#define kCSWebBrowserNetworkEntitlement "com.apple.private.web-browser-network"
 /*
  * Copyright (c) 2015-2023 Apple Inc. All rights reserved.
  *
