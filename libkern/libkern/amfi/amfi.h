@@ -2,7 +2,6 @@
 typedef void * TrustCache_t;
 typedef void * TrustCacheRuntime_t;
 #define TCReturn_t int
-typedef uint32_t constructInvalid_t;
 /*
  * Copyright (c) 2020 Apple Inc. All rights reserved.
  *
@@ -135,7 +134,7 @@ typedef struct _OSEntitlementsInterface {
 #define KERN_AMFI_SUPPORTS_TRUST_CACHE_API 1
 #define TRUST_CACHE_INTERFACE_VERSION 3u
 
-typedef TCReturn_t (*constructInvalid_t)(
+typedef int (*constructInvalid_t)(
 	TrustCache_t *trustCache,
 	const uint8_t *moduleAddr,
 	size_t moduleSize
