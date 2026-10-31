@@ -1,3 +1,5 @@
+#define TCReturn_t int
+typedef uint32_t constructInvalid_t;
 /*
  * Copyright (c) 2020 Apple Inc. All rights reserved.
  *
