@@ -10,16 +10,23 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install official Availability tools
+      - name: Install official Availability tools and Prepare Directories
         run: |
           set -e
           SDKROOT=$(xcrun --sdk macosx --show-sdk-path)
+          
+          # 1. 安装 AvailabilityVersions 工具链
           mkdir -p "$SDKROOT/usr/local/libexec"
           cp SETUP/availability/availability.pl "$SDKROOT/usr/local/libexec/"
           cp SETUP/availability/availability "$SDKROOT/usr/local/libexec/"
           cp SETUP/availability/availability.dsl "$SDKROOT/usr/local/libexec/"
           chmod +x "$SDKROOT/usr/local/libexec/availability.pl"
           chmod +x "$SDKROOT/usr/local/libexec/availability"
+
+          # 2. 创建构建系统必须的占位目录，满足 -Werror,-Wmissing-include-dirs
+          mkdir -p BUILD/obj/EXPORT_HDRS/libsa
+          mkdir -p "$SDKROOT/usr/local/include/kernel"
+          mkdir -p "$SDKROOT/System/Library/Frameworks/Kernel.framework/Versions/A/PrivateHeaders/platform"
 
       - name: Build XNU
         run: |
