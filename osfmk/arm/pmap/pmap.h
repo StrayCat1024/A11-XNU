@@ -473,7 +473,7 @@ struct pmap {
 #if HAS_APPLE_PAC
 	bool disable_jop;
 #else
-	bool reserved10_dup;
+	bool reserved10_pac_dup;
 #endif /* HAS_APPLE_PAC */
 
 	bool reserved11;
