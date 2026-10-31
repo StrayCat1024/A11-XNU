@@ -638,7 +638,7 @@ typedef void (^os_trace_payload_t)(xpc_object_t xdict);
  *		os_trace("network event: %ld, last seen: %ld, avg: %g", event_id, last_seen, avg);
  */
 #define os_trace(format, ...) __extension__({                                           \
-       \
+    (void)0;   \
     __attribute__((section("__TEXT,__os_trace"))) static const char _m[] = format;      \
    OS_TRACE_CALL(format, _m, OS_TRACE_TYPE_RELEASE, ##__VA_ARGS__);                     \
 })
@@ -671,7 +671,7 @@ typedef void (^os_trace_payload_t)(xpc_object_t xdict);
  *		os_trace_info("network interface status %ld", status);
  */
 #define os_trace_info(format, ...) __extension__({                                      \
-       \
+    (void)0;   \
     __attribute__((section("__TEXT,__os_trace"))) static const char _m[] = format;      \
    OS_TRACE_CALL(format, _m, OS_TRACE_TYPE_INFO, ##__VA_ARGS__);                        \
 })
@@ -698,7 +698,7 @@ typedef void (^os_trace_payload_t)(xpc_object_t xdict);
  *		os_trace_debug("network interface status %ld", status);
  */
 #define os_trace_debug(format, ...) __extension__({                                     \
-       \
+    (void)0;   \
     __attribute__((section("__TEXT,__os_trace"))) static const char _m[] = format;      \
    OS_TRACE_CALL(format, _m, OS_TRACE_TYPE_DEBUG, ##__VA_ARGS__);                       \
 })
@@ -776,7 +776,7 @@ os_trace_debug_enabled(void);
  *		os_trace_error("socket %d connection timeout %ld", fd, secs);
  */
 #define os_trace_error(format, ...) __extension__({                                     \
-       \
+    (void)0;   \
     __attribute__((section("__TEXT,__os_trace"))) static const char _m[] = format;      \
    OS_TRACE_CALL(format, _m, OS_TRACE_TYPE_ERROR, ##__VA_ARGS__);                       \
 })
@@ -801,7 +801,7 @@ os_trace_debug_enabled(void);
  *		os_trace_fault("failed to lookup uid %d - aborting", uid);
  */
 #define os_trace_fault(format, ...) __extension__({                                     \
-       \
+    (void)0;   \
     __attribute__((section("__TEXT,__os_trace"))) static const char _m[] = format;      \
     OS_TRACE_CALL(format, _m, OS_TRACE_TYPE_FAULT, ##__VA_ARGS__);                      \
 })
@@ -836,31 +836,31 @@ os_trace_debug_enabled(void);
  *   });
  */
 #define os_trace_with_payload(format, ...) __extension__({                                                              \
-                                       \
+    (void)0;                                   \
     __attribute__((section("__TEXT,__os_trace"))) static const char _m[] = format;                                      \
     OS_CONCAT(_os_trace_with_payload, OS_COUNT_ARGS(__VA_ARGS__))(format, _m, OS_TRACE_TYPE_RELEASE, ##__VA_ARGS__);    \
 })
 
 #define os_trace_info_with_payload(format, ...) __extension__({                                                     \
-                                   \
+    (void)0;                               \
     __attribute__((section("__TEXT,__os_trace"))) static const char _m[] = format;                                  \
     OS_CONCAT(_os_trace_with_payload, OS_COUNT_ARGS(__VA_ARGS__))(format, _m, OS_TRACE_TYPE_INFO, ##__VA_ARGS__);   \
 })
 
 #define os_trace_debug_with_payload(format, ...) __extension__({                                                    \
-                                   \
+    (void)0;                               \
     __attribute__((section("__TEXT,__os_trace"))) static const char _m[] = format;                                  \
     OS_CONCAT(_os_trace_with_payload, OS_COUNT_ARGS(__VA_ARGS__))(format, _m, OS_TRACE_TYPE_DEBUG, ##__VA_ARGS__);  \
 })
 
 #define os_trace_error_with_payload(format, ...) __extension__({                                                    \
-                                   \
+    (void)0;                               \
     __attribute__((section("__TEXT,__os_trace"))) static const char _m[] = format;                                  \
     OS_CONCAT(_os_trace_with_payload, OS_COUNT_ARGS(__VA_ARGS__))(format, _m, OS_TRACE_TYPE_ERROR, ##__VA_ARGS__);  \
 })
 
 #define os_trace_fault_with_payload(format, ...) __extension__({                                                    \
-                                   \
+    (void)0;                               \
     __attribute__((section("__TEXT,__os_trace"))) static const char _m[] = format;                                  \
     OS_CONCAT(_os_trace_with_payload, OS_COUNT_ARGS(__VA_ARGS__))(format, _m, OS_TRACE_TYPE_FAULT, ##__VA_ARGS__);  \
 })
