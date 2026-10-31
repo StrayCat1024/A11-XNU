@@ -53,7 +53,7 @@
 
 #include <os/log.h>
 #define pna_err(fmt, ...) \
-	os_log_error(OS_LOG_DEFAULT, "ERROR: " fmt, ## __VA_ARGS__)
+	do { } while(0)
 
 #define MAX_PERSONAS     512
 

@@ -1,6 +1,3 @@
-#ifndef XNUTARGET
-#define XNUTARGET 0
-#endif
 /*
  * Copyright (c) 2006-2018 Apple Inc. All rights reserved.
  *
