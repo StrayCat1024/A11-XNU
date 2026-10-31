@@ -39,12 +39,9 @@ INSTALL_MI_LCL_LIST = $(ALL_DEFS)
 INSTALL_DRIVERKIT_MI_LIST = $(PUBLIC_DEFS)
 INSTALL_DRIVERKIT_MI_LCL_LIST = $(PRIVATE_DEFS)
 
-OTHER_HEADERS = IOTypes.h IOReturn.h IORPC.h IOKitKeys.h \
+OTHER_HEADERS = IOTypes.h IOReturn.h IOKitKeys.h \
 				IOKernelReportStructs.h IOReportTypes.h \
-				queue_implementation.h macro_help.h \
-				bounded_ptr.h bounded_array.h bounded_array_ref.h bounded_ptr_fwd.h \
-				OSBoundedArray.h OSBoundedArrayRef.h OSBoundedPtr.h OSBoundedPtrFwd.h \
-				safe_allocation.h
+				macro_help.h \
 
 EXPORT_MI_GEN_LIST = $(GENERATED_HEADERS)  $(OTHER_HEADERS)
 INSTALL_MI_GEN_LIST = $(GENERATED_HEADERS)  $(OTHER_HEADERS)
