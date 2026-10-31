@@ -10,15 +10,22 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install official Availability tools into SDK
+      - name: Install official Availability tools and Fix DriverKit headers
         run: |
           set -e
+          
+          # 1. 安装 AvailabilityVersions 工具链
           SDKROOT=$(xcrun --sdk macosx --show-sdk-path)
           mkdir -p "$SDKROOT/usr/local/libexec"
           cp SETUP/availability/availability.pl "$SDKROOT/usr/local/libexec/"
           cp SETUP/availability/availability "$SDKROOT/usr/local/libexec/"
+          cp SETUP/availability/availability.dsl "$SDKROOT/usr/local/libexec/"
           chmod +x "$SDKROOT/usr/local/libexec/availability.pl"
           chmod +x "$SDKROOT/usr/local/libexec/availability"
+
+          # 2. 修复 DriverKit 的 IOTypes.h 依赖问题（官方开源树中在 IOKit 下）
+          cp iokit/IOKit/IOTypes.h iokit/DriverKit/IOTypes.h
+          cp iokit/IOKit/IOReturn.h iokit/DriverKit/IOReturn.h
 
       - name: Build XNU
         run: |
