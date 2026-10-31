@@ -1,3 +1,5 @@
+#define kCSWebBrowserHostEntitlement "com.apple.private.webkit.fake-host"
+#define kCSWebBrowserGPUEntitlement "com.apple.private.webkit.fake-gpu"
 #define kCSWebBrowserNetworkEntitlement "com.apple.private.webkit.fake-network"
 #define kCSWebBrowserWebContentEntitlement "com.apple.private.webkit.fake-content"
 /*
