@@ -966,7 +966,7 @@
 #endif /* !__ARM64_PMAP_SUBPAGE_L1__ */
 #else /* __ARM_16K_PG__ */
 #if __ARM64_PMAP_SUBPAGE_L1__
-#define T1SZ_BOOT 26ULL
+#define T1SZ_BOOT         25ULL
 #else /* __ARM64_PMAP_SUBPAGE_L1__ */
 #define T1SZ_BOOT 25ULL
 #endif /*__ARM64_PMAP_SUBPAGE_L1__*/
