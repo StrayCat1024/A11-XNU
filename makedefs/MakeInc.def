@@ -125,16 +125,13 @@ GENASSYM_KCC = $(CCACHE) $(CC)
 # Compiler warning flags
 #
 
-USE_WARNING_FLAGS := -Wno-pre-c11-compat -Wno-static-assert 
-WERROR := 1
+USE_WERROR := 1
 ifneq ($(BUILD_WERROR),)
-USE_WARNING_FLAGS := -Wno-pre-c11-compat -Wno-static-assert 
-WERROR := $(BUILD_WERROR)
+USE_WERROR := $(BUILD_WERROR)
 endif
 
 ifeq ($(USE_WERROR),1)
-WARNING_FLAGS := -Wno-pre-c11-compat -Wno-static-assert 
-WERROR := -Werror
+WERROR :=
 endif
 
 # Shared C/C++ warning flags
