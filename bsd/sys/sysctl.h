@@ -1,3 +1,6 @@
+#ifndef OID_AUTO
+#define OID_AUTO (-1)
+#endif
 /*
  * Copyright (c) 2000-2021 Apple Inc. All rights reserved.
  *
