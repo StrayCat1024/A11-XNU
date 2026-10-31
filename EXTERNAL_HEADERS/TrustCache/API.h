@@ -31,3 +31,7 @@ typedef struct {
     bool allowEngineeringTC;
 } TrustCacheRuntime_t;
 #endif
+
+#define kTCTypeCryptex1BootOS 3
+#define kTCTypeCryptex1BootApp 4
+#define kTCTypeEngineering 5
