@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install official Availability tools and Map DriverKit Headers
+      - name: Install official Availability tools and Auto-Map Headers
         run: |
           set -e
           
@@ -23,14 +23,24 @@ jobs:
           chmod +x "$SDKROOT/usr/local/libexec/availability.pl"
           chmod +x "$SDKROOT/usr/local/libexec/availability"
 
-          # 2. 自动映射 DriverKit 缺失的头文件（从整个源码树中找并复制）
-          echo "Mapping missing DriverKit headers..."
+          # 2. 自动在全库及 SDK 中搜索缺失的 DriverKit 头文件并复制
+          echo "Auto-mapping missing DriverKit headers..."
           HEADERS="IOTypes.h IOReturn.h IORPC.h IOKitKeys.h IOKernelReportStructs.h IOReportTypes.h queue_implementation.h macro_help.h bounded_ptr.h bounded_array.h bounded_array_ref.h bounded_ptr_fwd.h OSBoundedArray.h OSBoundedArrayRef.h OSBoundedPtr.h OSBoundedPtrFwd.h safe_allocation.h"
+          
           for h in $HEADERS; do
             if [ ! -f "iokit/DriverKit/$h" ]; then
+              # 先在源码树里找
               FOUND=$(find . -name "$h" | head -n 1)
+              # 如果源码树里没有，去 macOS SDK 里找
+              if [ -z "$FOUND" ]; then
+                FOUND=$(find "$SDKROOT" -name "$h" 2>/dev/null | head -n 1)
+              fi
+              
               if [ -n "$FOUND" ]; then
                 cp "$FOUND" "iokit/DriverKit/$h"
+                echo "Mapped $h from $FOUND"
+              else
+                echo "WARNING: Could not find $h anywhere!"
               fi
             fi
           done
