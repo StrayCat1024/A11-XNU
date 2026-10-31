@@ -10,12 +10,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Prepare Environment and Directories
+      - name: Prepare Environment, Directories, and Stub Headers
         run: |
           set -e
           SDKROOT=$(xcrun --sdk macosx --show-sdk-path)
           
-          # 1. 安装 AvailabilityVersions 工具链
+          # 安装 Availability 工具链
           mkdir -p "$SDKROOT/usr/local/libexec"
           cp SETUP/availability/availability.pl "$SDKROOT/usr/local/libexec/"
           cp SETUP/availability/availability "$SDKROOT/usr/local/libexec/"
@@ -23,19 +23,28 @@ jobs:
           chmod +x "$SDKROOT/usr/local/libexec/availability.pl"
           chmod +x "$SDKROOT/usr/local/libexec/availability"
 
-          # 2. 创建构建系统必须的占位目录，满足 -Werror,-Wmissing-include-dirs
+          # 创建缺失的占位目录
           mkdir -p BUILD/obj/EXPORT_HDRS/libsa
           mkdir -p "$SDKROOT/usr/local/include/kernel"
           mkdir -p "$SDKROOT/System/Library/Frameworks/Kernel.framework/Versions/A/PrivateHeaders/platform"
 
+          # 【关键】把空头文件塞进导出目录，解决 not found
+          mkdir -p BUILD/obj/EXPORT_HDRS/TrustCache
+          mkdir -p BUILD/obj/EXPORT_HDRS/os
+          touch BUILD/obj/EXPORT_HDRS/TrustCache/API.h
+          touch BUILD/obj/EXPORT_HDRS/os/firehose_buffer_private.h
+
       - name: Disable -Werror
         run: |
-          # 在 macOS 上使用 perl 替代 sed 进行就地修改，避免 BSD sed 报错
           perl -pi -e 's/WERROR := -Werror/WERROR :=/g' makedefs/MakeInc.def
 
       - name: Build XNU
         run: |
-          make SDKROOT=macosx ARCH_CONFIGS=ARM64 KERNEL_CONFIGS=DEVELOPMENT MACHINE_CONFIGS=BCM2837 RC_DARWIN_KERNEL_VERSION=23.6.0 RC_ProjectSourceVersion=10063.141.1
+          make SDKROOT=macosx ARCH_CONFIGS=ARM64 KERNEL_CONFIGS=DEVELOPMENT MACHINE_CONFIGS=BCM2837 RC_DARWIN_KERNEL_VERSION=23.6.0 RC_ProjectSourceVersion=10063.141.1 > build.log 2>&1 || {
+            echo "❌ 编译失败，真正的 Error："
+            grep -i -B 2 -A 5 "error:" build.log | grep -v "Werror" | tail -n 50
+            exit 1
+          }
 
       - name: Upload Kernel
         uses: actions/upload-artifact@v4
